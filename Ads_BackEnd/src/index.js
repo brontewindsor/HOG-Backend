@@ -47,6 +47,14 @@ app.post('/auth', async (req,res) => {
   res.send({token: user.token})
 
 })
+app.post('/user', async (req, res) => {
+  const newUser = req.body;
+  console.log(newUser);
+  const user = new User(req.body);
+  await user.save();
+  //res.send(user);
+  res.send({ message: 'New user inserted.' });
+});
 
 app.use( async (req,res,next) => {
   const authHeader = req.headers['authorization']
@@ -70,6 +78,7 @@ app.post('/', async (req, res) => {
   await ad.save();
   res.send({ message: 'New ad inserted.' });
 });
+
 
 app.delete('/:id', async (req, res) => {
   await Ad.deleteOne({ _id: ObjectId(req.params.id) })
